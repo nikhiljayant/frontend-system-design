@@ -1,0 +1,13 @@
+{
+  "name": "short-polling-demo",
+  "version": "1.0.0",
+  "description": "Short Polling demonstration using Node.js and HTML/CSS/JS",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
