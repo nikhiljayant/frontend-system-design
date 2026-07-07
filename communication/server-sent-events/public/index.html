@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Server-Sent Events Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Server-Sent Events (SSE) Demo</h1>
+    <p>A simple demo showing one-way real-time communication from Server to Client.</p>
+    
+    <div class="status-box">
+      Connection Status: <span id="status" class="connecting">Connecting...</span>
+    </div>
+
+    <h2>Live Messages from Server</h2>
+    <ul id="messages">
+      <!-- Messages will appear here -->
+    </ul>
+  </div>
+
+  <script src="client.js"></script>
+</body>
+</html>
