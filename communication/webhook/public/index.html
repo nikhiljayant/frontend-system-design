@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Webhook Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Webhook Demo</h1>
+    <p>Webhooks allow one server to send real-time data to another when an event happens.</p>
+
+    <!-- Step 1: Register Webhook -->
+    <div class="section-box">
+      <h2>1. Register Webhook Destination</h2>
+      <p class="helper-text">Register a URL to receive notifications when events happen.</p>
+      
+      <form id="register-form">
+        <input 
+          type="url" 
+          id="webhook-url" 
+          placeholder="http://localhost:5001/api/webhook-receiver" 
+          required
+        >
+        <button type="submit">Register URL</button>
+      </form>
+      
+      <h3>Registered URLs:</h3>
+      <ul id="webhook-list">
+        <!-- Registered URLs will appear here -->
+      </ul>
+    </div>
+
+    <!-- Step 2: Trigger Event -->
+    <div class="section-box">
+      <h2>2. Trigger a Mock Event</h2>
+      <p class="helper-text">Simulate a system event (like a new order) to send webhooks.</p>
+      
+      <div class="trigger-actions">
+        <button id="btn-trigger-order">Simulate 'order.created' Event</button>
+        <button id="btn-trigger-payment">Simulate 'payment.success' Event</button>
+      </div>
+    </div>
+
+    <!-- Receiver Endpoint Info -->
+    <div class="section-box receiver-info">
+      <h3>Local Webhook Receiver Endpoint</h3>
+      <p>This server has a built-in receiver endpoint configured at:</p>
+      <code>http://localhost:5001/api/webhook-receiver</code>
+      <p class="helper-text">💡 Copy this URL and register it in Step 1 to test full round-trip delivery locally!</p>
+    </div>
+
+    <!-- Step 3: View Real-Time Logs -->
+    <div class="section-box">
+      <div class="logs-header">
+        <h2>3. Real-Time Activity Logs</h2>
+        <button id="btn-clear">Clear Logs</button>
+      </div>
+      <ul id="logs-list">
+        <!-- Log messages will appear here -->
+      </ul>
+    </div>
+  </div>
+
+  <script src="client.js"></script>
+</body>
+</html>
