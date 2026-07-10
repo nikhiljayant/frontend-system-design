@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM-based XSS Mitigation - Beginner Example</title>
+    <meta name="description" content="A simple, beginner-friendly example showing how to mitigate DOM-based Cross-Site Scripting (XSS) using textContent.">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6; 
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .box { 
+            border: 2px dashed #99ff99; 
+            padding: 20px; 
+            border-radius: 5px; 
+            background: #f5fff5; 
+            margin-bottom: 20px;
+        }
+        .success { 
+            color: #008800; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background: #f0f0f0; 
+            padding: 15px; 
+            border: 1px solid #ccc;
+            font-family: monospace; 
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>DOM-based XSS Mitigation</h1>
+    <p>This page shows how to securely read and render values directly in client-side JavaScript. By outputting hash data safely, we neutralize any script tags present in the URL hash.</p>
+    
+    <div class="box">
+        <h3>Greeting Board Display (Secured)</h3>
+        <p>This widget customizes itself using the URL hash fragment (the text after '#').</p>
+        
+        <h4 class="success">Safe Output Rendered:</h4>
+        <!-- Our dynamic greeting will be printed safely here -->
+        <div id="greeting" style="font-size: 1.25rem; font-weight: bold; color: green;">Hello, Guest!</div>
+    </div>
+
+    <h3>Test the attack again (Click to test):</h3>
+    <p>Notice that the script in the URL hash fragment no longer executes when the hash changes.</p>
+    <ul>
+        <li>
+            <a href="#%3Cimg%20src%3Dx%20onerror%3Dalert(%27DOM%20XSS!%27)%3E">
+                Trigger URL Hash Change Attack
+            </a>
+        </li>
+    </ul>
+
+    <h3>Why is this secure?</h3>
+    <p>The client-side JavaScript reads the hash value and writes it securely to the DOM using <code>textContent</code>:</p>
+    <pre class="code-block">
+// Source: location.hash
+const hashValue = decodeURIComponent(window.location.hash.substring(1));
+
+// Sink: textContent (Secure)
+document.getElementById('greeting').textContent = "Welcome " + hashValue;
+    </pre>
+
+    <h3>What is the rule?</h3>
+    <p>Always output data from client-side sources (like <code>location.hash</code>, <code>location.search</code>, <code>document.referrer</code>) to safe DOM properties like <code>textContent</code> or <code>innerText</code>. If you must output HTML, use a dedicated HTML sanitizer library.</p>
+
+    <p><a href="index.html">&larr; Back to Mitigation Home</a></p>
+
+    <script>
+        function checkHash() {
+            // Get the URL hash (excluding the '#' character)
+            const rawHash = window.location.hash;
+            
+            if (rawHash) {
+                // SOURCE:
+                // Reading data directly from the URL hash
+                const name = decodeURIComponent(rawHash.substring(1));
+                
+                // MITIGATION POINT (SAFE SINK):
+                // Instead of using 'innerHTML', we use 'textContent'.
+                // Any special tags like <img> or <script> are converted to plain text and rendered visually rather than parsed.
+                document.getElementById('greeting').textContent = "Welcome " + name;
+            } else {
+                document.getElementById('greeting').textContent = "Hello, Guest!";
+            }
+        }
+
+        // Listen for when the hash in the URL changes
+        window.addEventListener('hashchange', checkHash);
+        
+        // Also run on page load
+        window.addEventListener('DOMContentLoaded', checkHash);
+    </script>
+</body>
+</html>

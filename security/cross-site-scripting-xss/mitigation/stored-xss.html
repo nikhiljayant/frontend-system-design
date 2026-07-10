@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stored XSS Mitigation - Beginner Example</title>
+    <meta name="description" content="A simple, beginner-friendly example showing how to mitigate Stored/Persistent Cross-Site Scripting (XSS) using textContent.">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6; 
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .box { 
+            border: 2px dashed #99ff99; 
+            padding: 20px; 
+            border-radius: 5px; 
+            background: #f5fff5; 
+            margin-bottom: 20px;
+        }
+        .comment { 
+            border-bottom: 1px solid #ddd; 
+            padding: 10px 0; 
+            word-break: break-all;
+        }
+        .success { 
+            color: #008800; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background: #f0f0f0; 
+            padding: 15px; 
+            border: 1px solid #ccc;
+            font-family: monospace; 
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stored XSS Mitigation</h1>
+    <p>This page shows the <strong>safe</strong> way to display persistent user data (like stored comments). Even if a malicious script gets saved into the database, it cannot execute because we render it safely.</p>
+    
+    <div class="box">
+        <h3>Simple Guestbook Comments (Secured)</h3>
+        <form id="comment-form">
+            <textarea id="comment-text" placeholder="Write a comment..." required style="width: 100%; height: 60px; padding: 5px; box-sizing: border-box;"></textarea><br><br>
+            <button type="submit" style="padding: 5px 10px;">Post Comment</button>
+            <button type="button" id="clear-btn" style="padding: 5px 10px; background-color: #ffcccc; border: 1px solid #ccaaaa; cursor: pointer;">Clear Database</button>
+        </form>
+
+        <h4 class="success">Safe Posted Comments:</h4>
+        <!-- Comments will be displayed safely inside this list -->
+        <div id="comments-list"></div>
+    </div>
+
+    <h3>Try pasting these attack payloads:</h3>
+    <p>Submit these comments to see that they are safely displayed as plain text and do NOT trigger alert boxes anymore:</p>
+    <ul>
+        <li><code>&lt;script&gt;alert('Stored XSS!')&lt;/script&gt;</code></li>
+        <li><code>&lt;img src="x" onerror="alert('Stored Img XSS!')"&gt;</code></li>
+    </ul>
+
+    <h3>Why is this secure?</h3>
+    <p>Instead of injecting raw string text directly into <code>innerHTML</code>, we set the comment's value using <code>textContent</code>:</p>
+    <pre class="code-block">
+// SECURE render loop:
+comments.forEach(comment => {
+    const div = document.createElement('div');
+    
+    // SECURE: textContent instructs the browser to treat this purely as text
+    div.textContent = comment;
+    
+    commentsList.appendChild(div);
+});
+    </pre>
+
+    <p><a href="index.html">&larr; Back to Mitigation Home</a></p>
+
+    <script>
+        const commentForm = document.getElementById('comment-form');
+        const commentText = document.getElementById('comment-text');
+        const commentsList = document.getElementById('comments-list');
+        const clearBtn = document.getElementById('clear-btn');
+
+        // Load comments from localStorage (simulating a database)
+        function showComments() {
+            const comments = JSON.parse(localStorage.getItem('beginner_comments') || '[]');
+            commentsList.innerHTML = ''; // Reset comments view
+            
+            // Loop through each comment and render it safely
+            comments.forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'comment';
+                
+                // MITIGATION POINT:
+                // Instead of using 'innerHTML', we use 'textContent'.
+                // If a stored comment contains a script tag, it displays as raw text on the page.
+                div.textContent = c;
+                commentsList.appendChild(div);
+            });
+        }
+
+        // Save a comment when the form is submitted
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop page reload
+            const text = commentText.value;
+            
+            const comments = JSON.parse(localStorage.getItem('beginner_comments') || '[]');
+            comments.push(text);
+            localStorage.setItem('beginner_comments', JSON.stringify(comments));
+            
+            commentText.value = ''; // Reset input
+            showComments(); // Re-render comments list
+        });
+
+        // Clear comments database
+        clearBtn.addEventListener('click', () => {
+            localStorage.removeItem('beginner_comments');
+            showComments();
+        });
+
+        // Load existing comments when page first opens
+        showComments();
+    </script>
+</body>
+</html>

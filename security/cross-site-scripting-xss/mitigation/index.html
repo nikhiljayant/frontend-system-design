@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Cross-Site Scripting (XSS) Mitigation Labs</title>
+    <meta
+      name="description"
+      content="A simple directory page listing beginner labs demonstrating how to mitigate Reflected, Stored, and DOM-based Cross-Site Scripting (XSS)."
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+        max-width: 700px;
+        background-color: #ffffff;
+        color: #333333;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      li {
+        margin-bottom: 15px;
+      }
+      .intro {
+        font-size: 1.1rem;
+        color: #555555;
+      }
+      .box {
+        border: 1px solid #ccc;
+        background-color: #fcfcfc;
+        padding: 15px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Cross-Site Scripting (XSS) - Mitigation Labs</h1>
+    <p class="intro">
+      Welcome! These simple laboratories demonstrate how to secure your code
+      against XSS attacks. By using correct DOM methods, we neutralize injected
+      JavaScript tags.
+    </p>
+
+    <h2>Select a mitigation lab to start:</h2>
+    <ul>
+      <li>
+        <strong
+          ><a href="reflected-xss.html"
+            >Lab 1: Mitigated Reflected XSS</a
+          ></strong
+        ><br />
+        See how using <code>textContent</code> renders query parameters as text
+        instead of executing them.
+      </li>
+      <li>
+        <strong
+          ><a href="stored-xss.html">Lab 2: Mitigated Stored XSS</a></strong
+        ><br />
+        See how dynamically building comments with
+        <code>textContent</code> blocks persistent scripts from running.
+      </li>
+      <li>
+        <strong
+          ><a href="dom-xss.html">Lab 3: Mitigated DOM-based XSS</a></strong
+        ><br />
+        See how using safe sinks client-side neutralizes URL location hash
+        exploits.
+      </li>
+    </ul>
+
+    <hr />
+
+    <div class="box">
+      <h3>How do we Mitigate XSS?</h3>
+      <p>
+        The golden rule of XSS defense is:
+        <strong>Never trust user input</strong>. To prevent XSS, you must tell
+        the browser to treat user data as data, not code:
+      </p>
+      <ol>
+        <li>
+          <strong>Use Safe APIs</strong>: In client-side JavaScript, use secure
+          element properties like <code>textContent</code> or
+          <code>innerText</code> instead of <code>innerHTML</code> or
+          <code>document.write</code>.
+        </li>
+        <li>
+          <strong>HTML Entity Encoding</strong>: If you must output data into
+          HTML context, convert characters like <code>&lt;</code> to
+          <code>&amp;lt;</code> and <code>&gt;</code> to
+          <code>&amp;gt;</code> so the browser displays them instead of
+          executing them as HTML tags.
+        </li>
+        <li>
+          <strong>Sanitization</strong>: If you must allow formatted HTML
+          comments (like bold or italic text), use a trusted HTML sanitization
+          library (such as DOMPurify) to strip out dangerous tags and attributes
+          before displaying them.
+        </li>
+      </ol>
+    </div>
+  </body>
+</html>

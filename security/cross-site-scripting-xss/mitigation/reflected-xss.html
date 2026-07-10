@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reflected XSS Mitigation - Beginner Example</title>
+    <meta name="description" content="A simple, beginner-friendly example showing how to mitigate Reflected Cross-Site Scripting (XSS) using textContent.">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6; 
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .box { 
+            border: 2px dashed #99ff99; 
+            padding: 20px; 
+            border-radius: 5px; 
+            background: #f5fff5; 
+            margin-bottom: 20px;
+        }
+        .success { 
+            color: #008800; 
+            font-weight: bold; 
+        }
+        .code-block { 
+            background: #f0f0f0; 
+            padding: 15px; 
+            border: 1px solid #ccc;
+            font-family: monospace; 
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reflected XSS Mitigation</h1>
+    <p>This page shows the <strong>safe</strong> way to display URL parameters on a website. By using safe programming techniques, we prevent the browser from executing any user-supplied script tags.</p>
+    
+    <div class="box">
+        <h3>Simple Search Form (Secured)</h3>
+        <form method="GET">
+            <input type="text" name="query" placeholder="Type query here..." required style="width: 250px; padding: 5px;">
+            <button type="submit" style="padding: 5px 10px;">Search</button>
+        </form>
+        
+        <h4 class="success">Safe Search Results:</h4>
+        <!-- This is where our results will be inserted safely by JavaScript -->
+        <div id="results"></div>
+    </div>
+
+    <h3>Test the attacks again (Click to test):</h3>
+    <p>Notice that clicking these links no longer pops up an alert box! Instead, you will see the raw tags printed safely on the page.</p>
+    <ul>
+        <li>
+            <a href="?query=%3Cscript%3Ealert(%27Reflected%20XSS!%27)%3C/script%3E">
+                Test with &lt;script&gt; tag payload
+            </a>
+        </li>
+        <li>
+            <a href="?query=%3Cimg%20src%3Dx%20onerror%3Dalert(%27Image%20XSS!%27)%3E">
+                Test with &lt;img&gt; tag payload
+            </a>
+        </li>
+    </ul>
+
+    <h3>Why is this secure?</h3>
+    <p>Look at the corrected JavaScript code in this page:</p>
+    <pre class="code-block">
+// 1. Get '?query=value' from the URL parameters
+const params = new URLSearchParams(window.location.search);
+const query = params.get('query');
+
+// 2. Insert it safely using textContent
+if (query) {
+    // SECURE: textContent treats the input strictly as text, NOT executable HTML
+    document.getElementById('results').textContent = "You searched for: " + query;
+}
+    </pre>
+
+    <h3>The Key Rule:</h3>
+    <p>If you are inserting text that comes from a user, <strong>never use <code>innerHTML</code></strong>. Always use <code>textContent</code> (or <code>innerText</code>). This is the simplest and most effective way to stop XSS.</p>
+
+    <p><a href="index.html">&larr; Back to Mitigation Home</a></p>
+
+    <script>
+        // 1. Get the query value from the URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get('query');
+
+        if (query) {
+            // MITIGATION POINT:
+            // Instead of using 'innerHTML', we use 'textContent'.
+            // The browser will display '<script>' as regular visible letters instead of running it.
+            document.getElementById('results').textContent = "You searched for: " + query;
+        }
+    </script>
+</body>
+</html>
