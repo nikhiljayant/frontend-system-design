@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Stored XSS - Beginner Example</title>
+    <meta
+      name="description"
+      content="A simple, beginner-friendly example of Stored/Persistent Cross-Site Scripting (XSS)."
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+        background-color: #ffffff;
+        color: #333333;
+      }
+      .box {
+        border: 2px dashed #ff9999;
+        padding: 20px;
+        border-radius: 5px;
+        background: #fff5f5;
+        margin-bottom: 20px;
+      }
+      .comment {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+        word-break: break-all;
+      }
+      .danger {
+        color: #cc0000;
+        font-weight: bold;
+      }
+      .code-block {
+        background: #f0f0f0;
+        padding: 15px;
+        border: 1px solid #ccc;
+        font-family: monospace;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Stored XSS (Persistent Cross-Site Scripting)</h1>
+    <p>
+      Stored XSS occurs when a website saves user input (like comments) in a
+      database (here we simulate this with the browser's
+      <code>localStorage</code>) and displays it later to other users without
+      any safety check.
+    </p>
+
+    <div class="box">
+      <h3>Simple Guestbook Comments</h3>
+      <form id="comment-form">
+        <textarea
+          id="comment-text"
+          placeholder="Write a comment..."
+          required
+          style="
+            width: 100%;
+            height: 60px;
+            padding: 5px;
+            box-sizing: border-box;
+          "
+        ></textarea
+        ><br /><br />
+        <button type="submit" style="padding: 5px 10px">Post Comment</button>
+        <button
+          type="button"
+          id="clear-btn"
+          style="
+            padding: 5px 10px;
+            background-color: #ffcccc;
+            border: 1px solid #ccaaaa;
+            cursor: pointer;
+          "
+        >
+          Clear Database
+        </button>
+      </form>
+
+      <h4 class="danger">Posted Comments:</h4>
+      <!-- Comments will be displayed inside this list -->
+      <div id="comments-list"></div>
+    </div>
+
+    <h3>Example Attack Payloads to Paste:</h3>
+    <p>
+      Copy and paste these directly into the textarea above, then click
+      <strong>Post Comment</strong>:
+    </p>
+    <ul>
+      <li>
+        <code>&lt;script&gt;alert('Stored XSS Executed!')&lt;/script&gt;</code>
+      </li>
+      <li>
+        <code
+          >&lt;img src="nonexistent-file.jpg" onerror="alert('Stored Image
+          XSS!')"&gt;</code
+        >
+      </li>
+    </ul>
+
+    <h3>Why is this vulnerable?</h3>
+    <p>
+      When loading comments from the database, we insert them into the page
+      using <code>innerHTML</code>:
+    </p>
+    <pre class="code-block">
+// 1. Loop through all comments in database
+comments.forEach(comment => {
+    const div = document.createElement('div');
+    
+    // VULNERABLE: Using innerHTML executes any script tags stored in the comment
+    div.innerHTML = comment;
+    
+    commentsList.appendChild(div);
+});
+    </pre>
+
+    <h3>How to Fix it?</h3>
+    <p>
+      Instead of <code>div.innerHTML = comment;</code>, use
+      <code>div.textContent = comment;</code> to safely treat the comment text
+      as plain data.
+    </p>
+
+    <p><a href="index.html">&larr; Back to Home Page</a></p>
+
+    <script>
+      const commentForm = document.getElementById("comment-form");
+      const commentText = document.getElementById("comment-text");
+      const commentsList = document.getElementById("comments-list");
+      const clearBtn = document.getElementById("clear-btn");
+
+      // Load comments from localStorage (simulating a database)
+      function showComments() {
+        // Retrieve comment list from browser memory (defaults to empty array if none)
+        const comments = JSON.parse(
+          localStorage.getItem("beginner_comments") || "[]",
+        );
+        commentsList.innerHTML = "";
+
+        // Loop through each comment and render it
+        comments.forEach((c) => {
+          const div = document.createElement("div");
+          div.className = "comment";
+
+          // VULNERABLE POINT:
+          // We use 'innerHTML' to insert the comment. If a hacker posted a script,
+          // it is stored in localStorage and runs every time the page loads.
+          //
+          // HOW TO FIX:
+          // Change 'div.innerHTML = c;' to:
+          // div.textContent = c;
+          div.innerHTML = c;
+          commentsList.appendChild(div);
+        });
+      }
+
+      // Save a comment when the form is submitted
+      commentForm.addEventListener("submit", (e) => {
+        e.preventDefault(); // Stop page reload
+        const text = commentText.value;
+
+        const comments = JSON.parse(
+          localStorage.getItem("beginner_comments") || "[]",
+        );
+        comments.push(text);
+        localStorage.setItem("beginner_comments", JSON.stringify(comments));
+
+        commentText.value = ""; // Reset input
+        showComments(); // Re-render comments list
+      });
+
+      // Clear comments database
+      clearBtn.addEventListener("click", () => {
+        localStorage.removeItem("beginner_comments");
+        showComments();
+      });
+
+      // Load existing comments when page first opens
+      showComments();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Reflected XSS - Beginner Example</title>
+    <meta
+      name="description"
+      content="A simple, beginner-friendly example of Reflected Cross-Site Scripting (XSS)."
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        line-height: 1.6;
+        background-color: #ffffff;
+        color: #333333;
+      }
+      .box {
+        border: 2px dashed #ff9999;
+        padding: 20px;
+        border-radius: 5px;
+        background: #fff5f5;
+        margin-bottom: 20px;
+      }
+      .danger {
+        color: #cc0000;
+        font-weight: bold;
+      }
+      .code-block {
+        background: #f0f0f0;
+        padding: 15px;
+        border: 1px solid #ccc;
+        font-family: monospace;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Reflected XSS (Cross-Site Scripting)</h1>
+    <p>
+      This is a simple demo of Reflected XSS. It happens when data in the URL
+      (like a search query parameter) is printed directly onto the page without
+      safety checks.
+    </p>
+
+    <div class="box">
+      <h3>Simple Search Form</h3>
+      <!-- When you click Search, this form reloads the page and adds '?query=your_text' to the URL -->
+      <form method="GET">
+        <input
+          type="text"
+          name="query"
+          placeholder="Type query here..."
+          required
+          style="width: 250px; padding: 5px"
+        />
+        <button type="submit" style="padding: 5px 10px">Search</button>
+      </form>
+
+      <h4 class="danger">Search Results:</h4>
+      <!-- This is where our results will be inserted by JavaScript -->
+      <div id="results"></div>
+    </div>
+
+    <h3>Try these example attacks (Click to test):</h3>
+    <ul>
+      <li>
+        <!-- This URL parameter contains a <script> tag which pops up an alert box -->
+        <a href="?query=%3Cscript%3Ealert(%27Reflected%20XSS!%27)%3C/script%3E">
+          Test with &lt;script&gt; tag payload
+        </a>
+      </li>
+      <li>
+        <!-- This URL parameter contains an <img> tag with a broken source ('x') which triggers 'onerror' JS code -->
+        <a
+          href="?query=%3Cimg%20src%3Dx%20onerror%3Dalert(%27Image%20XSS!%27)%3E"
+        >
+          Test with &lt;img&gt; tag payload
+        </a>
+      </li>
+    </ul>
+
+    <h3>Why is this vulnerable?</h3>
+    <p>Look at the JavaScript code in this page:</p>
+    <pre class="code-block">
+// 1. Get '?query=value' from the URL parameters
+const params = new URLSearchParams(window.location.search);
+const query = params.get('query');
+
+// 2. Insert it directly using innerHTML
+if (query) {
+    // VULNERABLE: innerHTML tells the browser to parse and run any HTML tags inside 'query'
+    document.getElementById('results').innerHTML = "You searched for: " + query;
+}
+    </pre>
+
+    <h3>How to Fix it?</h3>
+    <p>
+      Instead of <code>innerHTML</code>, use <code>textContent</code>. This
+      treats everything as plain text and will display raw tags (like
+      <code>&lt;script&gt;</code>) instead of running them.
+    </p>
+
+    <p><a href="index.html">&larr; Back to Home Page</a></p>
+
+    <script>
+      // 1. Get the query value from the URL (e.g. ?query=hello)
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get("query");
+
+      if (query) {
+        // VULNERABLE POINT:
+        // We use 'innerHTML' to insert the query.
+        // If the query contains HTML tags, the browser runs them as code.
+        //
+        // HOW TO FIX:
+        // Change 'innerHTML' to 'textContent' like this:
+        // document.getElementById('results').textContent = "You searched for: " + query;
+        document.getElementById("results").innerHTML =
+          "You searched for: " + query;
+      }
+    </script>
+  </body>
+</html>

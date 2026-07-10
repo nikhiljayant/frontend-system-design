@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cross-Site Scripting (XSS) Beginner Labs</title>
+    <meta name="description" content="A simple directory page listing beginner labs for understanding Reflected, Stored, and DOM-based Cross-Site Scripting (XSS).">
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            line-height: 1.6; 
+            max-width: 700px;
+            background-color: #ffffff;
+            color: #333333;
+        }
+        ul { 
+            padding-left: 20px; 
+        }
+        li { 
+            margin-bottom: 15px; 
+        }
+        .intro { 
+            font-size: 1.1rem; 
+            color: #555555;
+        }
+        .box {
+            border: 1px solid #ccc;
+            background-color: #fcfcfc;
+            padding: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cross-Site Scripting (XSS) - Beginner Labs</h1>
+    <p class="intro">Welcome! These simple laboratories demonstrate how hackers execute malicious JavaScript on websites through input boxes and URL links.</p>
+    
+    <h2>Select a lab to start:</h2>
+    <ul>
+        <li>
+            <strong><a href="reflected-xss.html">Lab 1: Reflected XSS</a></strong><br>
+            See how data in a URL search query parameter runs scripts instantly.
+        </li>
+        <li>
+            <strong><a href="stored-xss.html">Lab 2: Stored XSS (Persistent)</a></strong><br>
+            See how scripts get saved in localStorage (simulating a database) and run persistently on every page load.
+        </li>
+        <li>
+            <strong><a href="dom-xss.html">Lab 3: DOM-based XSS</a></strong><br>
+            See how client-side JavaScript reads data from the URL hash fragment and executes it in the browser.
+        </li>
+    </ul>
+
+    <hr>
+
+    <div class="box">
+        <h3>What is XSS?</h3>
+        <p>XSS stands for <strong>Cross-Site Scripting</strong>. It is a security vulnerability where a website allows users to input JavaScript code that is later rendered to other users. Since browsers run any JavaScript they see inside HTML, they execute the hacker's code. This allows hackers to steal information (like session cookies) or modify the website's look.</p>
+    </div>
+</body>
+</html>
