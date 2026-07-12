@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; margin: 30px;">
+    <h1>Lab 2: Untrusted Iframe Mitigation</h1>
+    <p>This host page applies the <code>sandbox="allow-scripts"</code> attribute to the iframe. Try the buttons inside the iframe to see how the browser blocks them.</p>
+    
+    <p>Host's Sensitive Key: <span id="key" style="font-weight: bold; background: yellow; padding: 4px;">MY-SECRET-TOKEN</span></p>
+    
+    <!-- Mitigated: sandbox attribute enforces restrictions -->
+    <iframe src="untrusted-child.html" sandbox="allow-scripts" style="width: 300px; height: 120px;"></iframe>
+    
+    <p><a href="index.html">&larr; Back</a></p>
+</body>
+</html>

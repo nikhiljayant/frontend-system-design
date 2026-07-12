@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; margin: 30px;">
+    <h1>Lab 2: Untrusted Iframe Vulnerability</h1>
+    <p>This host page lacks a <code>sandbox</code> attribute on the iframe, allowing the child frame to access parent elements and hijack the location.</p>
+    
+    <p>Host's Sensitive Key: <span id="key" style="font-weight: bold; background: yellow; padding: 4px;">MY-SECRET-TOKEN</span></p>
+    
+    <!-- Vulnerable: No sandbox attribute -->
+    <iframe src="untrusted-child.html" style="width: 300px; height: 120px;"></iframe>
+    
+    <p><a href="index.html">&larr; Back</a></p>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; background: #fff9db; border: 1px dashed orange; padding: 10px;">
+    <h4>Untrusted Frame</h4>
+    <button onclick="steal()">1. Steal Parent Key</button>
+    <button onclick="redirect()" style="margin-top: 10px;">2. Redirect Parent</button>
+
+    <script>
+        function steal() {
+            try {
+                window.parent.document.getElementById('key').innerText = 'STOLEN!';
+            } catch (e) {
+                alert("Blocked by Browser! Reason: " + e.message);
+            }
+        }
+        function redirect() {
+            try {
+                window.top.location = 'phishing.html';
+            } catch (e) {
+                alert("Blocked by Browser! Reason: " + e.message);
+            }
+        }
+    </script>
+</body>
+</html>

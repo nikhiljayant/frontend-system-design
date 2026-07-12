@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: sans-serif; background: #fff9db; border: 1px dashed orange; padding: 10px;">
+    <h4>Untrusted Frame</h4>
+    <!-- Attacking the parent DOM -->
+    <button onclick="window.parent.document.getElementById('key').innerText = 'STOLEN!'">1. Steal Parent Key</button>
+    <!-- Redirecting the parent window -->
+    <button onclick="window.top.location = 'phishing.html'" style="margin-top: 10px;">2. Redirect Parent</button>
+</body>
+</html>

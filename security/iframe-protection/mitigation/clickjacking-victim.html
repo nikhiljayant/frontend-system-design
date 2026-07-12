@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Victim Site (Secured)</title>
+    <!-- Hide the page by default -->
+    <style id="antiClickjack">body { display: none !important; }</style>
+</head>
+<body style="font-family: sans-serif; background: #e6ffe6; text-align: center; padding: 20px;">
+    <h3>Victim Settings Page (Secured)</h3>
+    <button onclick="alert('Victim Account Deleted!')" style="padding: 10px 20px; background: green; color: white; border: none; cursor: pointer;">Delete Account</button>
+
+    <script>
+        // Check if page is framed
+        if (self === top) {
+            // Not framed: remove hiding style
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        } else {
+            // Framed: attempt breakout
+            try {
+                top.location = self.location;
+            } catch(e) {
+                console.warn("Breakout blocked; page remains hidden.");
+            }
+        }
+    </script>
+</body>
+</html>
