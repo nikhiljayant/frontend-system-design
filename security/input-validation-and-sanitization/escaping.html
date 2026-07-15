@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Output Escaping</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem;
+            line-height: 1.5;
+        }
+        .back-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h2 { color: #111111; margin-bottom: 0.5rem; }
+        .description { color: #475569; margin-bottom: 2rem; font-size: 0.95rem; }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            color: #1a1a1a;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        textarea:focus { border-color: #3b82f6; }
+        .preset-container {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0 1.5rem 0;
+        }
+        .preset-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #1e293b;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .preset-btn:hover { background: #e2e8f0; }
+        .output-section {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .output-box {
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #e2e8f0;
+            margin-top: 0.5rem;
+            color: #0f172a;
+        }
+        .preview-box {
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: 1px dashed #cbd5e1;
+            margin-top: 0.5rem;
+        }
+        code { font-family: monospace; background: #e2e8f0; padding: 0.15rem 0.3rem; border-radius: 4px; color: #0f172a; }
+        pre { background: #f1f5f9; padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Hub</a>
+    <h2>HTML Output Escaping</h2>
+    <p class="description">Escaping converts raw characters into HTML entity representations. This makes scripts inert, preventing XSS execution in browsers.</p>
+    
+    <div class="card">
+        <div class="form-group">
+            <label for="payload">Test Script Input</label>
+            <textarea id="payload" rows="3" placeholder="Type or click a preset below..."></textarea>
+        </div>
+
+        <div class="preset-container">
+            <button class="preset-btn" data-payload="&lt;script&gt;alert(1)&lt;/script&gt;">&lt;script&gt; tag</button>
+            <button class="preset-btn" data-payload="&lt;img src=x onerror=alert('XSS!')&gt;">&lt;img onerror&gt;</button>
+        </div>
+
+        <div class="output-section">
+            <strong>Escaped Entity Output:</strong>
+            <div id="escaped-output" class="output-box">No input yet...</div>
+        </div>
+
+        <div class="output-section">
+            <strong>Rendered Safe Comparison (Browser Rendering):</strong>
+            <div id="preview" class="preview-box"><i>Rendered output will appear here.</i></div>
+        </div>
+    </div>
+
+    <h3>How it works:</h3>
+    <p>We replace unsafe characters <code>&lt; &gt; &amp; &quot; &#x27; /</code> with their corresponding HTML entity codes before placing them in the DOM.</p>
+    <pre><code>// Safe HTML encoding
+function escapeHTML(str) {
+    return str.replace(/[&lt;&gt;"'/&amp;]/g, (m) => {
+        const map = {
+            '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '&gt;': '&amp;gt;',
+            '"': '&amp;quot;', "'": '&amp;#x27;', '/': '&amp;#x2F;'
+        };
+        return map[m] || m;
+    });
+}</code></pre>
+
+    <script>
+        const textarea = document.getElementById("payload");
+        const escapedOutput = document.getElementById("escaped-output");
+        const preview = document.getElementById("preview");
+
+        function escapeHTML(str) {
+            if (!str) return "";
+            return str.replace(/[&<>"'/]/g, (match) => {
+                switch (match) {
+                    case '&': return '&amp;';
+                    case '<': return '&lt;';
+                    case '>': return '&gt;';
+                    case '"': return '&quot;';
+                    case "'": return '&#x27;';
+                    case '/': return '&#x2F;';
+                    default: return match;
+                }
+            });
+        }
+
+        function updatePlayground() {
+            const rawVal = textarea.value;
+            if (!rawVal.trim()) {
+                escapedOutput.textContent = "No input yet...";
+                preview.innerHTML = "<i>Rendered output will appear here.</i>";
+                return;
+            }
+
+            escapedOutput.textContent = escapeHTML(rawVal);
+            preview.textContent = rawVal; // Safe injection using textContent to render literally
+        }
+
+        // Setup preset event listeners
+        document.querySelectorAll(".preset-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                textarea.value = btn.getAttribute("data-payload");
+                updatePlayground();
+            });
+        });
+
+        textarea.addEventListener("input", updatePlayground);
+    </script>
+</body>
+</html>

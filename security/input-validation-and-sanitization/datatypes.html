@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valid Data Types & Range Checks</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem;
+            line-height: 1.5;
+        }
+        .back-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        h2 { color: #111111; margin-bottom: 0.5rem; }
+        .description { color: #475569; margin-bottom: 2rem; font-size: 0.95rem; }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        input {
+            width: 100%;
+            padding: 0.6rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            color: #1a1a1a;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        input:focus { border-color: #3b82f6; }
+        .feedback {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+            color: #64748b;
+        }
+        .valid { color: #16803d; font-weight: 500; }
+        .invalid { color: #b91c1c; font-weight: 500; }
+        code { font-family: monospace; background: #e2e8f0; padding: 0.15rem 0.3rem; border-radius: 4px; color: #0f172a; }
+        pre { background: #f1f5f9; padding: 1rem; border-radius: 8px; overflow-x: auto; font-family: monospace; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Hub</a>
+    <h2>Data Types & Range Validation</h2>
+    <p class="description">Inputs should be cast to their proper type and checked against bounds to ensure data consistency and integrity.</p>
+    
+    <div class="card">
+        <div class="form-group">
+            <label for="age">Age (Whole Integer between 18 and 120)</label>
+            <input type="number" id="age" placeholder="e.g. 25" autocomplete="off" min="1" max="150">
+            <div id="feedback" class="feedback">Enter age to run validation...</div>
+        </div>
+    </div>
+
+    <h3>How it works:</h3>
+    <p>We parse the raw string input as a number using <code>Number()</code>, verify that it is an integer using <code>Number.isInteger()</code>, and check if it lies within the bounds of <code>[18, 120]</code>.</p>
+    <pre><code>// Data type & bound checking
+const num = Number(inputValue);
+if (!Number.isInteger(num)) {
+    // Reject: Not a whole integer
+}
+if (num < 18 || num > 120) {
+    // Reject: Out of bounds
+}</code></pre>
+
+    <script>
+        const input = document.getElementById("age");
+        const feedback = document.getElementById("feedback");
+
+        input.addEventListener("input", () => {
+            const val = input.value.trim();
+            if (val === "") {
+                feedback.className = "feedback";
+                feedback.textContent = "Enter age to run validation...";
+                return;
+            }
+            
+            const num = Number(val);
+            
+            if (!Number.isInteger(num)) {
+                feedback.className = "feedback invalid";
+                feedback.textContent = "✖ Invalid. Age must be a whole number.";
+                return;
+            }
+            
+            if (num < 18 || num > 120) {
+                feedback.className = "feedback invalid";
+                feedback.textContent = "✖ Invalid. Age must be between 18 and 120.";
+                return;
+            }
+
+            feedback.className = "feedback valid";
+            feedback.textContent = "✔ Valid data type and range!";
+        });
+    </script>
+</body>
+</html>

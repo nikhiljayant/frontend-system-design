@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Validation & Sanitization Hub</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            max-width: 650px;
+            margin: 0 auto;
+            padding: 2.5rem 1.25rem;
+            line-height: 1.5;
+        }
+        h1 {
+            color: #111111;
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
+        }
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+        .card:hover {
+            border-color: #3b82f6;
+            background-color: #f1f5f9;
+        }
+        .card h3 {
+            margin: 0 0 0.5rem 0;
+            color: #2563eb;
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card p {
+            margin: 0;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        .badge {
+            font-size: 0.72rem;
+            background: #e0e7ff;
+            color: #4338ca;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1>Input Security Labs</h1>
+    <p class="subtitle">A simple, modular playground to learn input validation and sanitization techniques.</p>
+    
+    <div class="list">
+        <a href="whitelist.html" class="card">
+            <h3>Whitelist Validation <span class="badge">Rule-based</span></h3>
+            <p>Only allow explicitly permitted alphanumeric characters, rejecting everything else.</p>
+        </a>
+        <a href="regex.html" class="card">
+            <h3>Regex Validation <span class="badge">Pattern</span></h3>
+            <p>Validate formatting rules using a strict regular expression for email addresses.</p>
+        </a>
+        <a href="datatypes.html" class="card">
+            <h3>Types & Ranges <span class="badge">Numerical</span></h3>
+            <p>Enforce data type limits, check for integer properties, and validate range boundaries.</p>
+        </a>
+        <a href="escaping.html" class="card">
+            <h3>HTML Escaping <span class="badge">Encoding</span></h3>
+            <p>Convert unsafe characters into secure HTML entities to prevent script execution (XSS).</p>
+        </a>
+        <a href="media.html" class="card">
+            <h3>Media Validation <span class="badge">Files</span></h3>
+            <p>Verify uploaded files against MIME type whitelists and file size constraints.</p>
+        </a>
+    </div>
+</body>
+</html>
