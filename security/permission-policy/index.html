@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Permissions Policy Demo</title>
+  </head>
+  <body>
+    <h1>Permissions-Policy Demo</h1>
+    <p>
+      Check the browser console (F12) to see policy enforcement logs from each
+      iframe.
+    </p>
+
+    <!-- Case 1: Default iframe (Inherits permissions) -->
+    <h3>1. Frame A: Unrestricted Permissions (Default)</h3>
+    <iframe src="iframe.html#FrameA" width="500" height="120"></iframe>
+
+    <!-- Case 2: Restricted iframe (Explicitly disables features) -->
+    <h3>
+      2. Frame B: Restricted Permissions (allow="geolocation 'none'; camera
+      'none'")
+    </h3>
+    <iframe
+      src="iframe.html#FrameB"
+      allow="geolocation 'none'; camera 'none'"
+      width="500"
+      height="120"
+    ></iframe>
+  </body>
+</html>

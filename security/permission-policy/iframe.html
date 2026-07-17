@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Iframe Content</title>
+  </head>
+  <body>
+    <h4>Iframe Document</h4>
+    <p>Check console logs for geolocation status.</p>
+
+    <script>
+      const label = window.location.hash.substring(1) || "Unknown";
+      console.log(`[${label}] Requesting geolocation...`);
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          console.log(
+            `✅ [${label}] Geolocation SUCCESS:`,
+            pos.coords.latitude,
+            pos.coords.longitude,
+          );
+        },
+        (err) => {
+          // If blocked by permissions policy, err.code is 1 (PERMISSION_DENIED)
+          // In Chrome, the error message indicates policy block.
+          console.error(
+            `❌ [${label}] Geolocation BLOCKED/FAILED: ${err.message} (Code: ${err.code})`,
+          );
+        },
+      );
+    </script>
+  </body>
+</html>
