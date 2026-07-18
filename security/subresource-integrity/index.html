@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Subresource Integrity (SRI)</title>
+  </head>
+  <body>
+    <h1>Subresource Integrity (SRI)</h1>
+
+    <!-- 
+      Note: crossorigin="anonymous" is required for cross-origin resources (like CDNs).
+      It enables CORS, allowing the browser to read the fetched response body to compute
+      its cryptographic hash. Without it, the browser blocks SRI checks due to the Same-Origin Policy.
+    -->
+
+    <!-- Case 1: Script loaded with Correct SRI Hash (Runs successfully) -->
+    <h3>1. Success Case (Correct Hash)</h3>
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"
+      integrity="sha384-HAH79XdRvHr6axVGh4xQWVCp14kcd32bNk4Xu0sHDHtFQ42n6BAM8ykvB47dGz6D"
+      crossorigin="anonymous"
+      onload="
+        console.log(
+          '✅ Case 1: Script loaded successfully! Integrity hash matched.',
+        )
+      "
+      onerror="console.error('❌ Case 1: Script loading failed.')"
+    ></script>
+
+    <!-- Case 2: Script loaded with Mismatched SRI Hash (Blocked by browser) -->
+    <h3>2. Blocked Case (Invalid/Altered Hash)</h3>
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js?cb=invalid"
+      integrity="sha384-INVALIDHASHVALUE1234567890abcdefghijklmnopqrstuvwxyz"
+      crossorigin="anonymous"
+      onload="
+        console.log('✅ Case 2: Script loaded (SRI check failed to block!)')
+      "
+      onerror="
+        console.error(
+          '❌ Case 2: Script blocked by the browser due to SRI hash mismatch!',
+        )
+      "
+    ></script>
+  </body>
+</html>
