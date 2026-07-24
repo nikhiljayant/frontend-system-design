@@ -1,0 +1,20 @@
+# Define User type
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
+
+# Define root Query operations
+type Query {
+  # Fetch all users
+  users: [User!]!
+  # Fetch a single user by ID
+  user(id: ID!): User
+}
+
+# Define root Mutation operations
+type Mutation {
+  # Create a new user
+  createUser(name: String!, email: String!): User!
+}

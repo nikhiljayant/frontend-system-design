@@ -1,0 +1,14 @@
+{
+  "name": "graphql-example",
+  "version": "1.0.0",
+  "description": "Simple and minimal GraphQL example in Node.js",
+  "main": "server.js",
+  "scripts": {
+    "start:server": "node server.js",
+    "start:client": "node client.js"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.10.4",
+    "graphql": "^16.8.1"
+  }
+}
