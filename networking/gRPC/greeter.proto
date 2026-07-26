@@ -1,0 +1,21 @@
+// Specify Protocol Buffers version 3 syntax
+syntax = "proto3";
+
+// Package namespace for gRPC services and messages
+package greeter;
+
+// Define the Greeter service interface
+service GreeterService {
+  // Unary RPC: client sends a request, server returns a response
+  rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+// Request payload definition
+message HelloRequest {
+  string name = 1;
+}
+
+// Response payload definition
+message HelloResponse {
+  string message = 1;
+}
