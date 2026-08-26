@@ -1,0 +1,14 @@
+{
+  "name": "rendering-patterns-demo",
+  "version": "1.0.0",
+  "description": "Minimal application demonstrating CSR, SSR, and SSG in separate files",
+  "main": "server.js",
+  "scripts": {
+    "build": "node ssg.js",
+    "start": "node server.js",
+    "dev": "node ssg.js && node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
