@@ -1,0 +1,497 @@
+/* Modern CSS Reset & Tokens */
+:root {
+  --bg-primary: #0b0f19;
+  --bg-secondary: #111827;
+  --bg-card: #1f2937;
+  --bg-card-hover: #263345;
+  --border-color: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --accent-primary: #6366f1;
+  --accent-primary-hover: #4f46e5;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  --badge-bg: rgba(99, 102, 241, 0.15);
+  --badge-text: #818cf8;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Container */
+.cdui-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CDUI Controls Bar (Demo Helper) */
+.cdui-controls-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 24px;
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cdui-badge-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--accent-gradient);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.cdui-controls-title {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.cdui-controls-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.cdui-btn-control {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cdui-btn-control:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-primary);
+}
+
+.cdui-btn-toggle {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-primary);
+  color: #c7d2fe;
+}
+
+/* Inspector JSON Preview */
+.cdui-inspector-panel {
+  background: #0d1117;
+  border-bottom: 1px solid var(--border-color);
+  padding: 16px 24px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.cdui-inspector-header h4 {
+  font-size: 0.85rem;
+  color: var(--accent-primary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cdui-json-code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.8rem;
+  color: #7ee787;
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+/* Main Content Canvas */
+.cdui-main-content {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.cdui-root-canvas {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* 1. Navbar Component */
+.cdui-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.cdui-navbar-brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cdui-navbar-links {
+  display: flex;
+  gap: 20px;
+}
+
+.cdui-nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.cdui-nav-link:hover {
+  color: var(--text-primary);
+}
+
+/* 2. HeroBanner Component */
+.cdui-hero-banner {
+  text-align: center;
+  padding: 50px 24px;
+  background: linear-gradient(180deg, rgba(31, 41, 55, 0.6) 0%, rgba(17, 24, 39, 0.8) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.cdui-badge {
+  display: inline-block;
+  background: var(--badge-bg);
+  color: var(--badge-text);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 14px;
+  border-radius: 9999px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.cdui-hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cdui-hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+/* 3. Container & Layout Types (Where Things Render) */
+.cdui-container-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cdui-section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  border-left: 4px solid var(--accent-primary);
+  padding-left: 12px;
+}
+
+.cdui-container {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.cdui-container-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .cdui-container-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cdui-container-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.cdui-container-row > * {
+  flex: 1;
+  min-width: 250px;
+}
+
+.cdui-container-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 4. Product Card Component */
+.cdui-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.cdui-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.4);
+  box-shadow: var(--shadow-lg);
+}
+
+.cdui-product-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cdui-card-image-wrap {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #111827;
+  overflow: hidden;
+}
+
+.cdui-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.cdui-card:hover .cdui-card-img {
+  transform: scale(1.05);
+}
+
+.cdui-card-tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(17, 24, 39, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f3f4f6;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(4px);
+}
+
+.cdui-card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cdui-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cdui-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.cdui-rating-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.cdui-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cdui-card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #34d399;
+}
+
+/* 5. Info Card Component */
+.cdui-info-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cdui-info-icon {
+  font-size: 2rem;
+  margin-bottom: 4px;
+}
+
+.cdui-info-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cdui-info-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* 6. Footer Component */
+.cdui-footer {
+  text-align: center;
+  padding: 32px 20px;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.cdui-footer-copy {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.cdui-footer-note {
+  font-size: 0.8rem;
+  color: var(--accent-primary);
+}
+
+/* Buttons */
+.cdui-btn {
+  border: none;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cdui-btn-primary {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  padding: 12px 28px;
+  font-size: 1rem;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.cdui-btn-primary:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.cdui-btn-sm {
+  background: var(--accent-primary);
+  color: #ffffff;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+.cdui-btn-sm:hover {
+  background: var(--accent-primary-hover);
+}
+
+/* Fallback Component */
+.cdui-fallback {
+  padding: 16px;
+  border: 1px dashed #ef4444;
+  border-radius: var(--radius-md);
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  font-size: 0.875rem;
+}
+
+.cdui-fallback-badge {
+  display: inline-block;
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+/* Loading Screen */
+.cdui-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--text-secondary);
+}
+
+.cdui-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: cdui-spin 0.8s linear infinite;
+}
+
+@keyframes cdui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

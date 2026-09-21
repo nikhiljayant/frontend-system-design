@@ -1,0 +1,113 @@
+{
+  "pageTitle": "Config-Driven E-Commerce Dashboard",
+  "version": "1.0.0",
+  "layout": [
+    {
+      "id": "nav-1",
+      "type": "Navbar",
+      "props": {
+        "brand": "ShopEase",
+        "links": ["Home", "Products", "Deals", "Profile"]
+      }
+    },
+    {
+      "id": "banner-1",
+      "type": "HeroBanner",
+      "props": {
+        "title": "Summer Flash Sale!",
+        "subtitle": "Get up to 50% discount on all trending items this week only.",
+        "badge": "Limited Time Offer",
+        "actionText": "Explore Deals"
+      }
+    },
+    {
+      "id": "featured-products-container",
+      "type": "Container",
+      "props": {
+        "title": "Featured Products",
+        "layoutType": "grid",
+        "columns": 3
+      },
+      "children": [
+        {
+          "id": "product-1",
+          "type": "ProductCard",
+          "props": {
+            "title": "Wireless Noise-Canceling Headphones",
+            "price": "$199.99",
+            "rating": "4.8 ★",
+            "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",
+            "tag": "Best Seller"
+          }
+        },
+        {
+          "id": "product-2",
+          "type": "ProductCard",
+          "props": {
+            "title": "Minimalist Smart Watch V2",
+            "price": "$149.00",
+            "rating": "4.6 ★",
+            "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",
+            "tag": "Trending"
+          }
+        },
+        {
+          "id": "product-3",
+          "type": "ProductCard",
+          "props": {
+            "title": "Ergonomic Mechanical Keyboard",
+            "price": "$119.50",
+            "rating": "4.9 ★",
+            "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&q=80",
+            "tag": "New"
+          }
+        }
+      ]
+    },
+    {
+      "id": "action-banner-container",
+      "type": "Container",
+      "props": {
+        "title": "Need Help Choosing?",
+        "layoutType": "row"
+      },
+      "children": [
+        {
+          "id": "info-card-1",
+          "type": "InfoCard",
+          "props": {
+            "icon": "🚚",
+            "title": "Free Global Shipping",
+            "description": "On all orders above $50. Quick 3-5 day delivery guaranteed."
+          }
+        },
+        {
+          "id": "info-card-2",
+          "type": "InfoCard",
+          "props": {
+            "icon": "🛡️",
+            "title": "2-Year Warranty",
+            "description": "Full coverage and hassle-free returns on all electronic devices."
+          }
+        },
+        {
+          "id": "info-card-3",
+          "type": "InfoCard",
+          "props": {
+            "icon": "💬",
+            "title": "24/7 Expert Support",
+            "description": "Our dedicated support team is here to assist you anytime."
+          }
+        }
+      ]
+    },
+    {
+      "id": "footer-1",
+      "type": "Footer",
+      "props": {
+        "copyright": "© 2026 ShopEase Inc. All rights reserved.",
+        "note": "Fully rendered via Config-Driven UI (CDUI)"
+      }
+    }
+  ]
+}
