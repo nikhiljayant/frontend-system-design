@@ -9,6 +9,21 @@ const Meme = () => {
   const [memes, setMemes] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    window.addEventListener("scroll", handleInfiniteScroll);
+
+    return () => window.removeEventListener("scroll", handleInfiniteScroll);
+  }, []);
+
+  const handleInfiniteScroll = () => {
+    // window.scrollY = Till what point the user has scrolled
+    // window.innerHeight = Height of the Viewport
+    // document.body.scrollHeight = Height of the whole web page
+    if (window.scrollY + window.innerHeight === document.body.scrollHeight) {
+      handleFetchMemes();
+    }
+  };
+
   const handleFetchMemes = async () => {
     setLoading(true);
 
